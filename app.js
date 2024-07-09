@@ -5,6 +5,7 @@ import xss from "xss-clean";
 import cors from "cors";
 
 import userRouter from "./routes/userRoutes.js";
+import participantRouter from "./routes/participantRoutes.js";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(xss());
 
 // ROUTING
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/participants", participantRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello From Server!");

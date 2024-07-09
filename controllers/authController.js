@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import User from "../models/userModel.js";
+import { promisify } from "util";
 
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
@@ -33,6 +34,7 @@ const protect = async (req, res, next) => {
     ) {
       token = req.headers.authorization.split(" ")[1];
     } else if (req.cookies.jwt) token = req.cookies.jwt;
+
     if (!token) {
       return res.status(401).json({
         status: "fail",
@@ -56,11 +58,22 @@ const protect = async (req, res, next) => {
     req.user = currentUser;
     next();
   } catch (error) {
+    console.log(error);
     res.status(401).json({
       status: "fail",
       message: error,
     });
   }
+};
+
+const authorize = () => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({
+      status: "fail",
+      message: "You are not authorized to perform this action",
+    });
+  }
+  next();
 };
 
 const signToken = (id) => {
@@ -141,6 +154,7 @@ const logout = (req, res) => {
 
 export const authController = {
   protect,
+  authorize,
   signup,
   login,
   logout,
