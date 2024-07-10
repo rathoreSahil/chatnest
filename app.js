@@ -6,6 +6,8 @@ import cors from "cors";
 
 import userRouter from "./routes/userRoutes.js";
 import participantRouter from "./routes/participantRoutes.js";
+import chatRouter from "./routes/chatRoutes.js";
+import messageRouter from "./routes/messageRoutes.js";
 
 const app = express();
 
@@ -30,7 +32,8 @@ app.use(xss());
 // ROUTING
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/participants", participantRouter);
-// app.use("/api/v1/chats", chatRouter);
+app.use("/api/v1/chats", chatRouter);
+app.use("/api/v1/messages", messageRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello From Server!");

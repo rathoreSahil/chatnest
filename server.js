@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import app from "./app.js";
 import Participant from "./models/participantModel.js";
-import Chat from "./models/chatModel.js";
 
 dotenv.config();
 
@@ -34,8 +33,9 @@ instrument(io, {
 });
 
 io.on("connection", (socket) => {
-  socket.on("message", (message, chat) => {
-    io.to(chat._id).emit("message", message);
+  socket.on("message", (message) => {
+    console.log(message);
+    io.to(message.chat).emit("message", message);
   });
 
   socket.on("join-room", (chatId) => {
@@ -43,8 +43,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("join-rooms", async (userId) => {
-    const participants = await Participant.find({ userId });
-    const chatIds = [];
+    const participants = await Participant.find({ user: userId });
+
+    const chatIds = participants.map((participant) =>
+      participant.chat.toString()
+    );
 
     chatIds.forEach((chatId) => {
       socket.join(chatId);

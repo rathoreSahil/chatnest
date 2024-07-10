@@ -10,7 +10,6 @@ router.get(
   authController.authorize,
   participantController.getAllParticipants
 );
-router.get("/:userId", participantController.getParticipantsByUserId);
 
 router.post("/", participantController.addParticipant);
 
