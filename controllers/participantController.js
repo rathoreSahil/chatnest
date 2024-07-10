@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Participant from "../models/participantModel.js";
 
 const getAllParticipants = async (req, res) => {
@@ -20,13 +21,30 @@ const getAllParticipants = async (req, res) => {
 
 const getParticipantsByUserId = async (req, res) => {
   try {
-    const participants = await Participant.find({ userId: req.params.userId });
+    const chats = await Participant.aggregate([
+      {
+        $match: { user: new mongoose.Types.ObjectId(req.params.userId) },
+      },
+      {
+        $lookup: {
+          from: "chats",
+          localField: "chat",
+          foreignField: "_id",
+          as: "chat",
+        },
+      },
+      {
+        $unwind: "$chat",
+      },
+      {
+        $replaceRoot: { newRoot: "$chat" },
+      },
+    ]);
+
     res.status(200).json({
       status: "success",
-      results: participants.length,
-      data: {
-        participants,
-      },
+      results: chats.length,
+      data: chats,
     });
   } catch (error) {
     res.status(400).json({

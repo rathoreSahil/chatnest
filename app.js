@@ -30,6 +30,7 @@ app.use(xss());
 // ROUTING
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/participants", participantRouter);
+// app.use("/api/v1/chats", chatRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello From Server!");

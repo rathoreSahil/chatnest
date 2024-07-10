@@ -7,12 +7,7 @@ router.post("/signup", authController.signup);
 router.post("/login", authController.login);
 router.get("/logout", authController.logout);
 
-router.get(
-  "/",
-  authController.protect,
-  authController.authorize,
-  userController.getAllUsers
-);
+router.get("/", userController.getAllUsers);
 router.get("/is-logged-in", authController.protect, (req, res) => {
   res.status(200).json({
     status: "success",

@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import app from "./app.js";
 import Participant from "./models/participantModel.js";
+import Chat from "./models/chatModel.js";
 
 dotenv.config();
 
@@ -33,11 +34,12 @@ instrument(io, {
 });
 
 io.on("connection", (socket) => {
-  console.log("A user connected: ", socket.id);
+  socket.on("message", (message, chat) => {
+    io.to(chat._id).emit("message", message);
+  });
 
-  socket.on("message", (message) => {
-    console.log("message");
-    console.log(message);
+  socket.on("join-room", (chatId) => {
+    socket.join(chatId);
   });
 
   socket.on("join-rooms", async (userId) => {
@@ -47,10 +49,6 @@ io.on("connection", (socket) => {
     chatIds.forEach((chatId) => {
       socket.join(chatId);
     });
-  });
-
-  socket.on("disconnect", () => {
-    console.log("A user disconnected: ", socket.id);
   });
 });
 
