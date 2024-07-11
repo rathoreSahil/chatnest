@@ -4,7 +4,6 @@ import { createServer } from "http";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import app from "./app.js";
-import Participant from "./models/participantModel.js";
 
 dotenv.config();
 
@@ -34,7 +33,6 @@ instrument(io, {
 
 io.on("connection", (socket) => {
   socket.on("message", (message) => {
-    console.log(message);
     io.to(message.chat).emit("message", message);
   });
 
@@ -42,13 +40,7 @@ io.on("connection", (socket) => {
     socket.join(chatId);
   });
 
-  socket.on("join-rooms", async (userId) => {
-    const participants = await Participant.find({ user: userId });
-
-    const chatIds = participants.map((participant) =>
-      participant.chat.toString()
-    );
-
+  socket.on("join-rooms", (chatIds) => {
     chatIds.forEach((chatId) => {
       socket.join(chatId);
     });

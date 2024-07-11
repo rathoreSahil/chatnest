@@ -20,6 +20,26 @@ const getAllChats = async (req, res) => {
   }
 };
 
+const getChatIdsByUserId = async (req, res) => {
+  try {
+    const participants = await Participant.find({ user: req.params.userId });
+
+    const chatIds = participants.map((participant) =>
+      participant.chat.toString()
+    );
+
+    return res.status(200).json({
+      status: "success",
+      data: chatIds,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
 const getChatsByUserId = async (req, res) => {
   try {
     const chats = await Participant.aggregate([
@@ -59,4 +79,5 @@ const getChatsByUserId = async (req, res) => {
 export const chatController = {
   getAllChats,
   getChatsByUserId,
+  getChatIdsByUserId,
 };
