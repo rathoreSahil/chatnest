@@ -19,14 +19,12 @@ const getAllParticipants = async (req, res) => {
   }
 };
 
-const addParticipant = async (req, res) => {
+const addParticipants = async (req, res) => {
   try {
-    const participant = await Participant.create(req.body);
+    const participants = await Participant.insertMany(req.body.participants);
     res.status(201).json({
       status: "success",
-      data: {
-        participant,
-      },
+      data: participants,
     });
   } catch (error) {
     res.status(400).json({
@@ -38,5 +36,5 @@ const addParticipant = async (req, res) => {
 
 export const participantController = {
   getAllParticipants,
-  addParticipant,
+  addParticipants,
 };

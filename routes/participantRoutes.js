@@ -11,6 +11,6 @@ router.get(
   participantController.getAllParticipants
 );
 
-router.post("/", participantController.addParticipant);
+router.post("/", participantController.addParticipants);
 
 export default router;

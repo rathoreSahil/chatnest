@@ -2,6 +2,22 @@ import mongoose from "mongoose";
 import Chat from "../models/chatModel.js";
 import Participant from "../models/participantModel.js";
 
+const createChat = async (req, res) => {
+  try {
+    const chat = await Chat.create(req.body);
+
+    res.status(201).json({
+      status: "success",
+      data: chat,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
 const getAllChats = async (req, res) => {
   try {
     const chats = await Chat.find();
@@ -77,6 +93,7 @@ const getChatsByUserId = async (req, res) => {
 };
 
 export const chatController = {
+  createChat,
   getAllChats,
   getChatsByUserId,
   getChatIdsByUserId,

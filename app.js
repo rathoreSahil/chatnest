@@ -8,6 +8,7 @@ import userRouter from "./routes/userRoutes.js";
 import participantRouter from "./routes/participantRoutes.js";
 import chatRouter from "./routes/chatRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
+import morgan from "morgan";
 
 const app = express();
 
@@ -28,6 +29,9 @@ app.use(mongoSanitize());
 
 // data sanitization againt xss
 app.use(xss());
+
+// logger
+app.use(morgan("dev"));
 
 // ROUTING
 app.use("/api/v1/users", userRouter);
