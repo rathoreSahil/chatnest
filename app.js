@@ -10,6 +10,9 @@ import chatRouter from "./routes/chatRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
 import morgan from "morgan";
 
+import { createRouteHandler } from "uploadthing/express";
+import { uploadRouter } from "./uploadthing.js";
+
 const app = express();
 
 // CORS
@@ -38,6 +41,16 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/participants", participantRouter);
 app.use("/api/v1/chats", chatRouter);
 app.use("/api/v1/messages", messageRouter);
+app.use(
+  "/api/v1/uploadthing",
+  createRouteHandler({
+    router: uploadRouter,
+    config: {
+      uploadthingId: process.env.UPLOADTHING_APP_ID,
+      uploadthingSecret: process.env.UPLOADTHING_SECRET,
+    },
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("Hello From Server!");
