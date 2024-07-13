@@ -32,7 +32,23 @@ const getMessagesByChatId = async (req, res) => {
   }
 };
 
+const deleteAllMessages = async (req, res) => {
+  try {
+    await Message.deleteMany();
+
+    res.status(204).json({
+      status: "success",
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
 export const messageController = {
   addMessage,
   getMessagesByChatId,
+  deleteAllMessages,
 };

@@ -34,7 +34,22 @@ const addParticipants = async (req, res) => {
   }
 };
 
+const deleteAllParticipants = async (req, res) => {
+  try {
+    await Participant.deleteMany();
+    res.status(204).json({
+      status: "success",
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
 export const participantController = {
   getAllParticipants,
   addParticipants,
+  deleteAllParticipants,
 };

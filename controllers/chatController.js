@@ -36,26 +36,6 @@ const getAllChats = async (req, res) => {
   }
 };
 
-const getChatIdsByUserId = async (req, res) => {
-  try {
-    const participants = await Participant.find({ user: req.params.userId });
-
-    const chatIds = participants.map((participant) =>
-      participant.chat.toString()
-    );
-
-    return res.status(200).json({
-      status: "success",
-      data: chatIds,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      status: "fail",
-      message: error.message,
-    });
-  }
-};
-
 const getChatsByUserId = async (req, res) => {
   try {
     const chats = await Participant.aggregate([
@@ -80,7 +60,6 @@ const getChatsByUserId = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      results: chats.length,
       data: chats,
     });
   } catch (error) {
@@ -92,9 +71,23 @@ const getChatsByUserId = async (req, res) => {
   }
 };
 
+const deleteAllChats = async (req, res) => {
+  try {
+    await Chat.deleteMany();
+    res.status(204).json({
+      status: "success",
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
 export const chatController = {
   createChat,
   getAllChats,
   getChatsByUserId,
-  getChatIdsByUserId,
+  deleteAllChats,
 };

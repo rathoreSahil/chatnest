@@ -31,22 +31,37 @@ instrument(io, {
   mode: "development",
 });
 
+const userSocketMap = {};
+
 io.on("connection", (socket) => {
+  console.log("Connected: ", socket.id);
+  const userId = socket.handshake.query.userId;
+  if (userId) {
+    userSocketMap[userId] = socket.id;
+  }
+
   socket.on("message", (message) => {
     io.to(message.chat).emit("message", message);
+  });
+
+  socket.on("refresh", (user_id) => {
+    const socketId = userSocketMap[user_id];
+    if (socketId) {
+      io.to(socketId).emit("refresh");
+    }
   });
 
   socket.on("join-room", (chatId) => {
     socket.join(chatId);
   });
 
-  socket.on("join-rooms", (chatIds) => {
-    chatIds.forEach((chatId) => {
-      socket.join(chatId);
-    });
+  socket.on("disconnect", () => {
+    console.log("Disconnected: ", socket.id);
+    delete userSocketMap[userId];
   });
 });
 
+// listen for incoming requests
 const PORT = process.env.PORT || 3182;
 httpServer.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

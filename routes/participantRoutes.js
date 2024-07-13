@@ -12,5 +12,6 @@ router.get(
 );
 
 router.post("/", participantController.addParticipants);
+router.delete("/", participantController.deleteAllParticipants);
 
 export default router;
