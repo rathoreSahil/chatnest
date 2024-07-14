@@ -90,10 +90,13 @@ const signup = async (req, res) => {
       throw new Error("Passwords do not match");
     }
 
+    const profilePhoto = req.profilePhoto || "default.jpg";
+
     const newUserDetails = {
       name,
       email,
       password,
+      photo: profilePhoto,
     };
     const newUser = await User.create(newUserDetails);
 

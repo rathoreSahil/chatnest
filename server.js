@@ -3,12 +3,20 @@ import { instrument } from "@socket.io/admin-ui";
 import { createServer } from "http";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cloudinary from "cloudinary";
 import app from "./app.js";
 
 dotenv.config();
 
 // SERVER
 const httpServer = createServer(app);
+
+// CLOUDINARY
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // DATABASE
 const DB = process.env.DATABASE.replace(
