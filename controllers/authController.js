@@ -90,7 +90,7 @@ const signup = async (req, res) => {
       throw new Error("Passwords do not match");
     }
 
-    const profilePhoto = req.profilePhoto || "default.jpg";
+    const profilePhoto = req.profilePhoto || "/default.webp";
 
     const newUserDetails = {
       name,

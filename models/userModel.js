@@ -16,7 +16,11 @@ const UserSchema = new mongoose.Schema({
   },
   photo: {
     type: String,
-    default: "default.jpg",
+    default: "/default.webp",
+  },
+  description: {
+    type: String,
+    default: "This user has not provided a description!",
   },
   role: {
     type: String,
