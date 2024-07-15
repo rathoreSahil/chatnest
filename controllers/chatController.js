@@ -63,7 +63,6 @@ const getChatsByUserId = async (req, res) => {
       data: chats,
     });
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       status: "fail",
       message: error.message,

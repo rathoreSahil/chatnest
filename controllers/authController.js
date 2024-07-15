@@ -58,7 +58,6 @@ const protect = async (req, res, next) => {
     req.user = currentUser;
     next();
   } catch (error) {
-    console.log(error);
     res.status(401).json({
       status: "fail",
       message: error,
