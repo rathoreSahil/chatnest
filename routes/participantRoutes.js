@@ -4,14 +4,14 @@ import { authController } from "../controllers/authController.js";
 
 const router = express.Router();
 
-router.get(
-  "/",
-  authController.protect,
-  authController.authorize,
-  participantController.getAllParticipants
-);
-
-router.post("/", participantController.addParticipants);
-router.delete("/", participantController.deleteAllParticipants);
+router
+  .route("/")
+  .get(
+    authController.protect,
+    authController.authorize,
+    participantController.getAllParticipants
+  )
+  .post(participantController.addParticipants)
+  .delete(participantController.deleteAllParticipants);
 
 export default router;

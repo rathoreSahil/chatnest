@@ -36,11 +36,11 @@ const getAllChats = async (req, res) => {
   }
 };
 
-const getChatsByUserId = async (req, res) => {
+const getCurrentUserChats = async (req, res) => {
   try {
     const chats = await Participant.aggregate([
       {
-        $match: { user: new mongoose.Types.ObjectId(req.params.userId) },
+        $match: { user: new mongoose.Types.ObjectId(req.user._id) },
       },
       {
         $lookup: {
@@ -87,6 +87,6 @@ const deleteAllChats = async (req, res) => {
 export const chatController = {
   createChat,
   getAllChats,
-  getChatsByUserId,
+  getCurrentUserChats,
   deleteAllChats,
 };
