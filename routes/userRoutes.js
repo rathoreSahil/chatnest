@@ -5,14 +5,9 @@ import upload from "../multer.config.js";
 
 const router = express.Router();
 
-router.post(
-  "/signup",
-  upload.single("image"),
-  userController.uploadProfilePhoto,
-  authController.signup
-);
 router.post("/login", authController.login);
 router.get("/logout", authController.logout);
+router.post("/signup", authController.signup);
 
 router.get("/", userController.getAllUsers);
 router.get("/is-logged-in", authController.protect, (req, res) => {
@@ -24,5 +19,10 @@ router.get("/is-logged-in", authController.protect, (req, res) => {
     },
   });
 });
+
+router
+  .route("/photo")
+  .patch(upload.single("photo"), userController.uploadProfilePhoto)
+  .delete(authController.protect, userController.deleteProfilePhoto);
 
 export default router;

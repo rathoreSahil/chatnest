@@ -11,7 +11,7 @@ const ChatSchema = new mongoose.Schema(
     },
     photo: {
       type: String,
-      default: "/default.webp",
+      default: "/default-group.png",
     },
     isGroupChat: {
       type: Boolean,

@@ -83,19 +83,17 @@ const signToken = (id) => {
 
 const signup = async (req, res) => {
   try {
+    console.log(req.body);
     const { name, email, password, passwordConfirm } = req.body;
 
     if (password !== passwordConfirm) {
       throw new Error("Passwords do not match");
     }
 
-    const profilePhoto = req.profilePhoto || "/default.webp";
-
     const newUserDetails = {
       name,
       email,
       password,
-      photo: profilePhoto,
     };
     const newUser = await User.create(newUserDetails);
 

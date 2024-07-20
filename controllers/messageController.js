@@ -17,7 +17,10 @@ const addMessage = async (req, res) => {
 
 const getMessagesByChatId = async (req, res) => {
   try {
-    const messages = await Message.find({ chat: req.params.chatId });
+    const messages = await Message.find({ chat: req.params.chatId }).populate(
+      "sender",
+      "name"
+    );
 
     res.status(200).json({
       status: "success",
