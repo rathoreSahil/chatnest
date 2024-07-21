@@ -19,26 +19,23 @@ const getAllUsers = async (req, res) => {
 
 const uploadProfilePhoto = async (req, res) => {
   try {
-    console.log("file:", req.file);
-    return res.status(200).json({
-      status: "success",
-      message: "Image uploaded successfully",
-    });
     // Upload image to Cloudinary
     const result = await cloudinary.uploader.upload(req.file.path, {
       folder: "profile_images",
     });
 
+    // Update the user's photo in the database
+    req.user.photo = result.secure_url;
+    req.user.photoPublicId = result.public_id;
+    await req.user.save();
+
     // Delete the image from the server
     deleteFile(req.file.path);
 
-    // Send the Cloudinary URL in the response
-    req.profilePhoto = result.secure_url;
     res.status(200).json({
       status: "success",
-      data: {
-        profilePhoto: req.profilePhoto,
-      },
+      message: "Image uploaded successfully",
+      user: req.user,
     });
   } catch (error) {
     console.error(error);
@@ -50,9 +47,8 @@ const uploadProfilePhoto = async (req, res) => {
 
 const deleteProfilePhoto = async (req, res) => {
   try {
-    const profilePhoto = req.user.photo;
-    console.log(profilePhoto);
-    const result = await cloudinary.uploader.destroy(profilePhoto, {
+    const profilePhotoPublicId = req.user.photoPublicId;
+    const result = await cloudinary.uploader.destroy(profilePhotoPublicId, {
       invalidate: true,
     });
 

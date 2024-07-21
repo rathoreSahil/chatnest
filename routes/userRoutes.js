@@ -22,7 +22,11 @@ router.get("/is-logged-in", authController.protect, (req, res) => {
 
 router
   .route("/photo")
-  .patch(upload.single("photo"), userController.uploadProfilePhoto)
+  .patch(
+    upload.single("photo"),
+    authController.protect,
+    userController.uploadProfilePhoto
+  )
   .delete(authController.protect, userController.deleteProfilePhoto);
 
 export default router;

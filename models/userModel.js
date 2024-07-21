@@ -17,21 +17,21 @@ const UserSchema = new mongoose.Schema(
     },
     photo: {
       type: String,
-      default: "/default.webp",
+    },
+    photoPublicId: {
+      type: String,
     },
     description: {
       type: String,
-      default: "This user has not provided a description!",
     },
     role: {
       type: String,
-      enum: ["user", "admin"],
-      default: "user",
     },
     password: {
       type: String,
       minlength: 8,
       select: false,
+      required: [true, "Please provide a password"],
     },
   },
   {

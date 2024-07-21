@@ -11,15 +11,17 @@ const ChatSchema = new mongoose.Schema(
     },
     photo: {
       type: String,
-      default: "/default-group.png",
+    },
+    photoPublicId: {
+      type: String,
     },
     isGroupChat: {
       type: Boolean,
-      default: false,
+      required: [true, "Chat must be a group chat or a direct message"],
     },
     participantCount: {
       type: Number,
-      default: 2,
+      required: [true, "Chat must have a participant count"],
     },
   },
   {
