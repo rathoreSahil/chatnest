@@ -2,15 +2,15 @@ import mongoose from "mongoose";
 
 const ParticipantSchema = new mongoose.Schema(
   {
-    chat: {
+    group: {
       type: mongoose.Schema.ObjectId,
-      ref: "Chat",
-      required: [true, "Participant must belong to a chat"],
+      ref: "GroupChat",
+      required: [true, "Participant must belong to a group"],
     },
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "User",
-      required: [true, "Participant must belong to a user"],
+      required: [true, "User cannot be empty"],
     },
   },
   {

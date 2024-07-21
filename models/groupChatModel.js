@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const ChatSchema = new mongoose.Schema(
+const GroupChatSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -15,13 +15,9 @@ const ChatSchema = new mongoose.Schema(
     photoPublicId: {
       type: String,
     },
-    isGroupChat: {
-      type: Boolean,
-      required: [true, "Chat must be a group chat or a direct message"],
-    },
     participantCount: {
       type: Number,
-      required: [true, "Chat must have a participant count"],
+      required: [true, "Group chat must have a participant count"],
     },
   },
   {
@@ -29,5 +25,5 @@ const ChatSchema = new mongoose.Schema(
   }
 );
 
-const Chat = mongoose.model("Chat", ChatSchema);
-export default Chat;
+const GroupChat = mongoose.model("GroupChat", GroupChatSchema);
+export default GroupChat;

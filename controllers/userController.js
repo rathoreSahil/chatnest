@@ -39,9 +39,10 @@ const uploadProfilePhoto = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ status: "fail", message: "Error uploading image to Cloudinary" });
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
   }
 };
 

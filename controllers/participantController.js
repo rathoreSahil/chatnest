@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import Participant from "../models/participantModel.js";
 
 const getAllParticipants = async (req, res) => {
@@ -6,10 +5,7 @@ const getAllParticipants = async (req, res) => {
     const participants = await Participant.find();
     res.status(200).json({
       status: "success",
-      results: participants.length,
-      data: {
-        participants,
-      },
+      participants,
     });
   } catch (error) {
     res.status(400).json({
@@ -24,7 +20,7 @@ const addParticipants = async (req, res) => {
     const participants = await Participant.insertMany(req.body.participants);
     res.status(201).json({
       status: "success",
-      data: participants,
+      message: "Participants added successfully",
     });
   } catch (error) {
     res.status(400).json({
@@ -39,6 +35,7 @@ const deleteAllParticipants = async (req, res) => {
     await Participant.deleteMany();
     res.status(204).json({
       status: "success",
+      message: "All Participants deleted successfully",
     });
   } catch (error) {
     res.status(400).json({

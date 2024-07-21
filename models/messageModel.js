@@ -2,10 +2,13 @@ import mongoose from "mongoose";
 
 const MessageSchema = new mongoose.Schema(
   {
-    chat: {
+    groupChat: {
       type: mongoose.Schema.ObjectId,
-      ref: "Chat",
-      required: [true, "Message must belong to a chat"],
+      ref: "GroupChat",
+    },
+    directChat: {
+      type: mongoose.Schema.ObjectId,
+      ref: "DirectChat",
     },
     sender: {
       type: mongoose.Schema.ObjectId,

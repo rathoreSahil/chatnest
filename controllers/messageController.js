@@ -6,6 +6,7 @@ const addMessage = async (req, res) => {
 
     res.status(201).json({
       status: "success",
+      message: "Message saved successfully",
     });
   } catch (error) {
     res.status(400).json({
@@ -17,10 +18,12 @@ const addMessage = async (req, res) => {
 
 const getMessagesByChatId = async (req, res) => {
   try {
-    const messages = await Message.find({ chat: req.params.chatId }).populate(
-      "sender",
-      "name"
-    );
+    const messages = await Message.find({
+      $or: [
+        { groupChat: req.params.chatId },
+        { directChat: req.params.chatId },
+      ],
+    }).populate("sender", "name");
 
     res.status(200).json({
       status: "success",
@@ -40,6 +43,7 @@ const deleteAllMessages = async (req, res) => {
 
     res.status(204).json({
       status: "success",
+      message: "All Messages deleted successfully",
     });
   } catch (error) {
     res.status(400).json({

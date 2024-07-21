@@ -6,7 +6,8 @@ import cors from "cors";
 
 import userRouter from "./routes/userRoutes.js";
 import participantRouter from "./routes/participantRoutes.js";
-import chatRouter from "./routes/chatRoutes.js";
+import groupChatRouter from "./routes/groupChatRoutes.js";
+import directChatRouter from "./routes/directChatRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
 import morgan from "morgan";
 
@@ -36,7 +37,8 @@ app.use(morgan("dev"));
 // ROUTING
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/participants", participantRouter);
-app.use("/api/v1/chats", chatRouter);
+app.use("/api/v1/group-chats", groupChatRouter);
+app.use("/api/v1/direct-chats", directChatRouter);
 app.use("/api/v1/messages", messageRouter);
 
 app.get("/", (req, res) => {
