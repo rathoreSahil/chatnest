@@ -15,6 +15,25 @@ const getAllParticipants = async (req, res) => {
   }
 };
 
+const getParticipant = async (req, res) => {
+  try {
+    const participant = await Participant.findOne({
+      user: req.user._id,
+      group: req.params.groupId,
+    });
+
+    return res.status(200).json({
+      status: "success",
+      participant,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
 const addParticipants = async (req, res) => {
   try {
     const participants = await Participant.insertMany(req.body.participants);
@@ -47,6 +66,7 @@ const deleteAllParticipants = async (req, res) => {
 
 export const participantController = {
   getAllParticipants,
+  getParticipant,
   addParticipants,
   deleteAllParticipants,
 };

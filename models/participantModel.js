@@ -12,6 +12,10 @@ const ParticipantSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "User cannot be empty"],
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

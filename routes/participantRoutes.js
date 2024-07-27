@@ -14,4 +14,10 @@ router
   .post(participantController.addParticipants)
   .delete(participantController.deleteAllParticipants);
 
+router.get(
+  "/:groupId",
+  authController.protect,
+  participantController.getParticipant
+);
+
 export default router;
