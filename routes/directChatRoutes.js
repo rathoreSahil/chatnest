@@ -10,4 +10,6 @@ router
   .post(directChatController.createDirectChat)
   .delete(directChatController.deleteAllDirectChats);
 
+router.get("/:id", directChatController.getDirectChatById);
+
 export default router;

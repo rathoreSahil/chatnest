@@ -49,7 +49,13 @@ io.on("connection", (socket) => {
   }
 
   socket.on("message", (message) => {
-    io.to(message.chat).emit("message", message);
+    const room =
+      "directChat" in message ? message.directChat : message.groupChat;
+
+    console.log("Message: ", message);
+    console.log("Room: ", room);
+
+    io.to(room).emit("message", message);
   });
 
   socket.on("refresh", (user_id) => {

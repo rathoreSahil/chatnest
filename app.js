@@ -37,8 +37,8 @@ app.use(morgan("dev"));
 // ROUTING
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/participants", participantRouter);
-app.use("/api/v1/group-chats", groupChatRouter);
-app.use("/api/v1/direct-chats", directChatRouter);
+app.use("/api/v1/chats/group", groupChatRouter);
+app.use("/api/v1/chats/direct", directChatRouter);
 app.use("/api/v1/messages", messageRouter);
 
 app.get("/", (req, res) => {

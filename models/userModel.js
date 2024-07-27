@@ -24,9 +24,6 @@ const UserSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-    role: {
-      type: String,
-    },
     password: {
       type: String,
       minlength: 8,

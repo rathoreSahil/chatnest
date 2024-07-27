@@ -7,9 +7,8 @@ const router = express.Router();
 
 router.post("/login", authController.login);
 router.get("/logout", authController.logout);
-router.post("/signup", authController.signup);
 
-router.get("/", userController.getAllUsers);
+router.route("/").get(userController.getAllUsers).post(authController.signup);
 router.get("/is-logged-in", authController.protect, (req, res) => {
   res.status(200).json({
     status: "success",
@@ -19,6 +18,8 @@ router.get("/is-logged-in", authController.protect, (req, res) => {
     },
   });
 });
+
+router.get("/:id", userController.getUserById);
 
 router
   .route("/photo")

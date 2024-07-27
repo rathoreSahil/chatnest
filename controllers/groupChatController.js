@@ -9,6 +9,7 @@ const createGroupChat = async (req, res) => {
     res.status(201).json({
       status: "success",
       message: "Group Chat created successfully",
+      data: chat,
     });
   } catch (error) {
     res.status(400).json({
@@ -20,31 +21,16 @@ const createGroupChat = async (req, res) => {
 
 const getCurrentUserGroupChats = async (req, res) => {
   try {
-    const groupChats = await Participant.aggregate([
-      {
-        $match: { user: new mongoose.Schema.Types.ObjectId(req.user._id) },
-      },
-      {
-        $lookup: {
-          from: "groupchats",
-          localField: "group",
-          foreignField: "_id",
-          as: "group",
-        },
-      },
-      {
-        $unwind: "$group",
-      },
-      {
-        $replaceRoot: { newRoot: "$group" },
-      },
-    ]);
+    const groupChats = (
+      await Participant.find({ user: req.user._id }).populate("group")
+    ).map((item) => item.group);
 
     res.status(200).json({
       status: "success",
       data: groupChats,
     });
   } catch (error) {
+    // console.log(error);
     res.status(400).json({
       status: "fail",
       message: error.message,

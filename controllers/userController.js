@@ -17,6 +17,21 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.status(200).json({
+      status: "success",
+      data: user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
 const uploadProfilePhoto = async (req, res) => {
   try {
     // Upload image to Cloudinary
@@ -49,15 +64,18 @@ const uploadProfilePhoto = async (req, res) => {
 const deleteProfilePhoto = async (req, res) => {
   try {
     const profilePhotoPublicId = req.user.photoPublicId;
-    const result = await cloudinary.uploader.destroy(profilePhotoPublicId, {
+    await cloudinary.uploader.destroy(profilePhotoPublicId, {
       invalidate: true,
     });
 
-    console.log(result);
+    req.user.photo = undefined;
+    req.user.photoPublicId = undefined;
+    await req.user.save();
 
     return res.status(200).json({
       status: "success",
       message: "Image deleted successfully",
+      user: req.user,
     });
   } catch (error) {
     return res.status(400).json({
@@ -69,6 +87,7 @@ const deleteProfilePhoto = async (req, res) => {
 
 export const userController = {
   getAllUsers,
+  getUserById,
   uploadProfilePhoto,
   deleteProfilePhoto,
 };
