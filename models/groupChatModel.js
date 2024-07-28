@@ -19,6 +19,9 @@ const GroupChatSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Group chat must have a participant count"],
     },
+    lastMessage: {
+      type: String,
+    },
   },
   {
     timestamps: true,

@@ -12,6 +12,11 @@ router
   .delete(groupChatController.deleteAllGroupChats);
 
 router
+  .route("/:id")
+  .get(groupChatController.getGroupChatById)
+  .patch(groupChatController.updateGroupChat);
+
+router
   .route("/:groupId/photo")
   .patch(upload.single("photo"), groupChatController.uploadGroupChatPhoto)
   .delete(groupChatController.deleteGroupChatPhoto);

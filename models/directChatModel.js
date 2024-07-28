@@ -12,6 +12,9 @@ const DirectChatSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Direct chat must have a user2"],
     },
+    lastMessage: {
+      type: String,
+    },
   },
   {
     timestamps: true,

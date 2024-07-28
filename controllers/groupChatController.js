@@ -20,6 +20,29 @@ const createGroupChat = async (req, res) => {
   }
 };
 
+const getGroupChatById = async (req, res) => {
+  try {
+    const chat = await GroupChat.findById(req.params.id);
+
+    if (!chat) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Group Chat not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: chat,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
 const getCurrentUserGroupChats = async (req, res) => {
   try {
     const groupChats = (
@@ -39,12 +62,18 @@ const getCurrentUserGroupChats = async (req, res) => {
   }
 };
 
-const deleteAllGroupChats = async (req, res) => {
+const updateGroupChat = async (req, res) => {
   try {
-    await GroupChat.deleteMany();
-    res.status(204).json({
+    const updatedGroupChat = await GroupChat.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json({
       status: "success",
-      message: "All Group Chats deleted successfully",
+      message: "Group Chat updated successfully",
+      data: updatedGroupChat,
     });
   } catch (error) {
     res.status(400).json({
@@ -92,6 +121,21 @@ const uploadGroupChatPhoto = async (req, res) => {
   }
 };
 
+const deleteAllGroupChats = async (req, res) => {
+  try {
+    await GroupChat.deleteMany();
+    res.status(204).json({
+      status: "success",
+      message: "All Group Chats deleted successfully",
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
 const deleteGroupChatPhoto = async (req, res) => {
   try {
     const groupChat = await GroupChat.findById(req.params.groupId);
@@ -129,8 +173,10 @@ const deleteGroupChatPhoto = async (req, res) => {
 
 export const groupChatController = {
   createGroupChat,
+  getGroupChatById,
   getCurrentUserGroupChats,
-  deleteAllGroupChats,
+  updateGroupChat,
   uploadGroupChatPhoto,
+  deleteAllGroupChats,
   deleteGroupChatPhoto,
 };

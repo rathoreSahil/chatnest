@@ -20,6 +20,7 @@ router.get("/is-logged-in", authController.protect, (req, res) => {
 });
 
 router.get("/:id", userController.getUserById);
+router.get("/:groupId", userController.getUsersByGroupId);
 
 router
   .route("/photo")

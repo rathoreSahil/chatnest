@@ -51,17 +51,16 @@ io.on("connection", (socket) => {
   socket.on("message", (message) => {
     const room =
       "directChat" in message ? message.directChat : message.groupChat;
-
-    console.log("Message: ", message);
-    console.log("Room: ", room);
-
     io.to(room).emit("message", message);
   });
 
-  socket.on("refresh", (user_id) => {
+  socket.on("new-chat-self", (newChat) => {
+    socket.emit("new-chat", newChat);
+  });
+  socket.on("new-chat", (user_id, newChat) => {
     const socketId = userSocketMap[user_id];
     if (socketId) {
-      io.to(socketId).emit("refresh");
+      socket.to(socketId).emit("new-chat", newChat);
     }
   });
 

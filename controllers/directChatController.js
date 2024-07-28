@@ -58,6 +58,33 @@ const getCurrentUserDirectChats = async (req, res) => {
   }
 };
 
+const updateDirectChat = async (req, res) => {
+  try {
+    console.log(req.body);
+    const updatedDirectChat = await DirectChat.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    console.log(updatedDirectChat);
+
+    res.status(200).json({
+      status: "success",
+      message: "Direct Chat updated successfully",
+      data: updatedDirectChat,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
 const deleteAllDirectChats = async (req, res) => {
   try {
     await DirectChat.deleteMany();
@@ -77,5 +104,6 @@ export const directChatController = {
   createDirectChat,
   getDirectChatById,
   getCurrentUserDirectChats,
+  updateDirectChat,
   deleteAllDirectChats,
 };

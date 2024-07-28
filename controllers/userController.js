@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import cloudinary from "cloudinary";
 import deleteFile from "../utils/delete-file.js";
+import Participant from "../models/participantModel.js";
 
 const getAllUsers = async (req, res) => {
   try {
@@ -23,6 +24,26 @@ const getUserById = async (req, res) => {
     res.status(200).json({
       status: "success",
       data: user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
+const getUsersByGroupId = async (req, res) => {
+  try {
+    const users = await Participant.find({
+      group: req.params.groupId,
+    })
+      .populate("user")
+      .map((item) => item.user);
+
+    res.status(200).json({
+      status: "success",
+      data: users,
     });
   } catch (error) {
     res.status(400).json({
@@ -88,6 +109,7 @@ const deleteProfilePhoto = async (req, res) => {
 export const userController = {
   getAllUsers,
   getUserById,
+  getUsersByGroupId,
   uploadProfilePhoto,
   deleteProfilePhoto,
 };
