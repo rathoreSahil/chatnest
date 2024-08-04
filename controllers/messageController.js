@@ -2,11 +2,13 @@ import Message from "../models/messageModel.js";
 
 const addMessage = async (req, res) => {
   try {
+    req.body.message.sender = req.user._id;
     const message = await Message.create(req.body.message);
 
     res.status(201).json({
       status: "success",
-      message: "Message saved successfully",
+      message: "Message added successfully",
+      data: message,
     });
   } catch (error) {
     res.status(400).json({

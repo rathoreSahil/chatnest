@@ -1,4 +1,5 @@
 import cloudinary from "cloudinary";
+import deleteFile from "../utils/delete-file.js";
 
 const uploadToCloudinary = async (req, res) => {
   try {
@@ -6,6 +7,9 @@ const uploadToCloudinary = async (req, res) => {
     const result = await cloudinary.uploader.upload(req.file.path, {
       folder: "images",
     });
+
+    // Delete the image from the server
+    deleteFile(req.file.path);
 
     res.status(201).json({
       status: "success",

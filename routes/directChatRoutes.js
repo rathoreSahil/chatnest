@@ -1,12 +1,14 @@
 import express from "express";
-import { directChatController } from "../controllers/directChatController.js";
 import { authController } from "../controllers/authController.js";
+import { directChatController } from "../controllers/directChatController.js";
 
 const router = express.Router();
 
+router.use(authController.protect);
+
 router
   .route("/")
-  .get(authController.protect, directChatController.getCurrentUserDirectChats)
+  .get(directChatController.getCurrentUserDirectChats)
   .post(directChatController.createDirectChat)
   .delete(directChatController.deleteAllDirectChats);
 

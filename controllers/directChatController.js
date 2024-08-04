@@ -2,8 +2,8 @@ import DirectChat from "../models/directChatModel.js";
 
 const createDirectChat = async (req, res) => {
   try {
+    req.body.user1 = req.user._id;
     const newDirectChat = await DirectChat.create(req.body);
-
     res.status(201).json({
       status: "success",
       message: "Direct Chat created successfully",
