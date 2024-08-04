@@ -9,6 +9,8 @@ import participantRouter from "./routes/participantRoutes.js";
 import groupChatRouter from "./routes/groupChatRoutes.js";
 import directChatRouter from "./routes/directChatRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
+import imageRouter from "./routes/imageRoutes.js";
+
 import morgan from "morgan";
 
 const app = express();
@@ -40,6 +42,7 @@ app.use("/api/v1/participants", participantRouter);
 app.use("/api/v1/chats/group", groupChatRouter);
 app.use("/api/v1/chats/direct", directChatRouter);
 app.use("/api/v1/messages", messageRouter);
+app.use("/api/v1/images", imageRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello From Server!");

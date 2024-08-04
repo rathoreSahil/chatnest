@@ -49,8 +49,7 @@ io.on("connection", (socket) => {
   }
 
   socket.on("message", (message) => {
-    const room =
-      "directChat" in message ? message.directChat : message.groupChat;
+    const room = message.directChat || message.groupChat;
     io.to(room).emit("message", message);
   });
 
