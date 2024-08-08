@@ -74,7 +74,6 @@ const uploadProfilePhoto = async (req, res) => {
       user: req.user,
     });
   } catch (error) {
-    console.error(error);
     res.status(400).json({
       status: "fail",
       message: error.message,

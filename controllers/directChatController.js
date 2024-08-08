@@ -60,7 +60,6 @@ const getCurrentUserDirectChats = async (req, res) => {
 
 const updateDirectChat = async (req, res) => {
   try {
-    console.log(req.body);
     const updatedDirectChat = await DirectChat.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -69,8 +68,6 @@ const updateDirectChat = async (req, res) => {
         runValidators: true,
       }
     );
-
-    console.log(updatedDirectChat);
 
     res.status(200).json({
       status: "success",

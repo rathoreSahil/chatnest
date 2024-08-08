@@ -54,7 +54,6 @@ const getCurrentUserGroupChats = async (req, res) => {
       data: groupChats,
     });
   } catch (error) {
-    // console.log(error);
     res.status(400).json({
       status: "fail",
       message: error.message,
@@ -113,7 +112,6 @@ const uploadGroupChatPhoto = async (req, res) => {
       data: groupChat,
     });
   } catch (error) {
-    console.error(error);
     res.status(400).json({
       status: "fail",
       message: error.message,
@@ -157,13 +155,12 @@ const deleteGroupChatPhoto = async (req, res) => {
     groupChat.photoPublicId = undefined;
     await groupChat.save();
 
-    res.status(204).json({
+    res.status(200).json({
       status: "success",
       message: "Image deleted successfully",
       data: groupChat,
     });
   } catch (error) {
-    console.error(error);
     res.status(400).json({
       status: "fail",
       message: error.message,

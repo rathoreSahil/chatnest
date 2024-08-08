@@ -15,7 +15,7 @@ const getAllParticipants = async (req, res) => {
   }
 };
 
-const getParticipant = async (req, res) => {
+const getAdminStatus = async (req, res) => {
   try {
     const participant = await Participant.findOne({
       user: req.user._id,
@@ -24,7 +24,7 @@ const getParticipant = async (req, res) => {
 
     return res.status(200).json({
       status: "success",
-      participant,
+      isAdmin: participant.isAdmin,
     });
   } catch (error) {
     return res.status(400).json({
@@ -36,7 +36,7 @@ const getParticipant = async (req, res) => {
 
 const addParticipants = async (req, res) => {
   try {
-    const participants = await Participant.insertMany(req.body.participants);
+    await Participant.insertMany(req.body.participants);
     res.status(201).json({
       status: "success",
       message: "Participants added successfully",
@@ -66,7 +66,7 @@ const deleteAllParticipants = async (req, res) => {
 
 export const participantController = {
   getAllParticipants,
-  getParticipant,
+  getAdminStatus,
   addParticipants,
   deleteAllParticipants,
 };

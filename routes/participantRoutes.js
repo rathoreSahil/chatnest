@@ -17,7 +17,7 @@ router
 router.get(
   "/:groupId",
   authController.protect,
-  participantController.getParticipant
+  participantController.getAdminStatus
 );
 
 export default router;
