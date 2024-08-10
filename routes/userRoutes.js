@@ -9,7 +9,9 @@ router.post("/login", authController.login);
 router.get("/logout", authController.logout);
 
 router.route("/").get(userController.getAllUsers).post(authController.signup);
-router.get("/is-logged-in", authController.protect, (req, res) => {
+
+router.use(authController.protect);
+router.get("/is-logged-in", (req, res) => {
   res.status(200).json({
     status: "success",
     message: "User is logged in",
@@ -24,11 +26,7 @@ router.get("/:groupId", userController.getUsersByGroupId);
 
 router
   .route("/photo")
-  .patch(
-    upload.single("photo"),
-    authController.protect,
-    userController.uploadProfilePhoto
-  )
-  .delete(authController.protect, userController.deleteProfilePhoto);
+  .patch(upload.single("photo"), userController.uploadProfilePhoto)
+  .delete(userController.deleteProfilePhoto);
 
 export default router;

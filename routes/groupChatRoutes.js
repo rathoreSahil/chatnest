@@ -5,9 +5,11 @@ import upload from "../multer.config.js";
 
 const router = express.Router();
 
+router.use(authController.protect);
+
 router
   .route("/")
-  .get(authController.protect, groupChatController.getCurrentUserGroupChats)
+  .get(groupChatController.getCurrentUserGroupChats)
   .post(groupChatController.createGroupChat)
   .delete(groupChatController.deleteAllGroupChats);
 

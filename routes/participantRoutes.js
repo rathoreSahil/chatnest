@@ -4,20 +4,13 @@ import { authController } from "../controllers/authController.js";
 
 const router = express.Router();
 
+router.use(authController.protect);
 router
   .route("/")
-  .get(
-    authController.protect,
-    authController.authorize,
-    participantController.getAllParticipants
-  )
+  .get(authController.authorize, participantController.getAllParticipants)
   .post(participantController.addParticipants)
   .delete(participantController.deleteAllParticipants);
 
-router.get(
-  "/:groupId",
-  authController.protect,
-  participantController.getAdminStatus
-);
+router.get("/:groupId", participantController.getAdminStatus);
 
 export default router;
